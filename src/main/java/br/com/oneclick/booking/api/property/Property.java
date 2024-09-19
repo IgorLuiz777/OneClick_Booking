@@ -1,13 +1,14 @@
 package br.com.oneclick.booking.api.property;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 
@@ -22,17 +23,26 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private TypeProperty type;
 
-    private int roomsQuantity;
+    @NotNull
+    private Integer roomsQuantity;
 
-    private int bedsQuantity;
+    @NotNull
+    private Integer bedsQuantity;
 
-    private int bathroomsQuantity;
+    @NotNull
+    @Column(name = "bathroomsQuantity")
+    private Integer bathroomsQuantity;
 
+    @Size(max = 500)
     private String description;
 
+    @NotNull
     private BigDecimal dailyPrice;
 
-    private int grade; // 1 -5
+    @Range(min = 1, max = 5)
+    private int grade; // 1 - 5
 }
