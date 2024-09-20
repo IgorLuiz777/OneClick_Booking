@@ -1,6 +1,7 @@
 package br.com.oneclick.booking.api.property;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,14 +31,16 @@ public class PropertyController {
         return propertyService.getPropertyById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Property updateProperty(@RequestBody Property property, @PathVariable Long id) {
         return propertyService.updateProperty(id, property);
     }
 
     @DeleteMapping("/{id}")
-    public void deletPropertyById(@PathVariable Long id) {
+    public ResponseEntity deletPropertyById(@PathVariable Long id) {
         propertyService.deleteProperty(id);
+        return ResponseEntity.noContent().build();
+
     }
 
 }
