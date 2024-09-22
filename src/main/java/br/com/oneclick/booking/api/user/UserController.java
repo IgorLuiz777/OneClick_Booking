@@ -33,8 +33,8 @@ public class UserController {
         return userService.updateUser(id, user);
     }
 
-    @PostMapping("/{id}")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 }

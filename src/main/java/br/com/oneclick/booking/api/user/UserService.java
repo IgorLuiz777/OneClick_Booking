@@ -1,7 +1,9 @@
 package br.com.oneclick.booking.api.user;
 
+import br.com.oneclick.booking.api.booking.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,10 +15,13 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private BookingRepository bookingRepository;
 
     public User createUser(User user) {
-        if (userRepository.findById(user.getId()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "The ID is auto increment. Don't pass it in the request body!");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -29,8 +34,6 @@ public class UserService {
     }
 
     public User updateUser(Long id, User user) {
-        if (userRepository.findById(id).isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "User not found with id: " + id);
         user.setId(id);
         return userRepository.save(user);
     }
