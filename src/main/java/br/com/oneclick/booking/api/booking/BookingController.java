@@ -15,8 +15,9 @@ public class BookingController {
     private BookingService bookingService;
 
     @PostMapping
-    public Booking postBooking(@RequestBody Booking booking) {
-        return bookingService.createBooking(booking);
+    public Booking postBooking(@RequestBody Booking booking, @RequestHeader("Authorization") String token) {
+        String bearerToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+        return bookingService.createBooking(booking, bearerToken);
     }
 
     @GetMapping

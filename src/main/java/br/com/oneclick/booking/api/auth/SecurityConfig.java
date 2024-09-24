@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/user").permitAll()
                 .requestMatchers(HttpMethod.GET, "/*").permitAll()
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .requestMatchers("/booking/**").permitAll()
+                .requestMatchers("/property/**").permitAll()
                 .anyRequest().authenticated()
         );
 

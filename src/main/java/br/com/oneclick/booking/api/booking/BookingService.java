@@ -1,5 +1,8 @@
 package br.com.oneclick.booking.api.booking;
 
+import br.com.oneclick.booking.api.auth.AuthService;
+import br.com.oneclick.booking.api.auth.Token;
+import br.com.oneclick.booking.api.auth.TokenService;
 import br.com.oneclick.booking.api.property.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +18,17 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    // TODO: BARRAR RESERVAS NA MESMA DATA
+    @Autowired
+    private TokenService tokenService;
 
-    public Booking createBooking(Booking booking) {
+    // TODO: BARRAR RESERVAS NA MESMA DATA
+    // TODO: SOMAR PREÇO FINAL
+
+    public Booking createBooking(Booking booking, String token) {
         if (bookingRepository.existsById(booking.getId())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 "The ID is auto increment. Don't pass it in the request body!");
+        var user = tokenService.getUserFromToken(token);
+        booking.setUser(user);
         return bookingRepository.save(booking);
     }
 
