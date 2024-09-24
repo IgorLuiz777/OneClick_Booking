@@ -23,7 +23,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    //FetchType.EAGER para ter certeza que o dailyPrice será buscado
+    @OneToOne(fetch = FetchType.EAGER)
     @NotNull
     private Property property;
 
